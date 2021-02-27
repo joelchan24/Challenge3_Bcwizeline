@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CardItem from "./components/CardItem";
+import { pokemons } from "./mock/mockedData";
 
-function App() {
+import "./styles.css";
+
+export default function App() {
+  /**
+   * Input state management logic here
+   */
+  let [pokemonName,setPokemonName]=useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h2>Mini Challenge 3: Poke filter</h2>
+      <input
+      type="text"
+      placeholder="Enter Pokemon Name"
+      onChange={e=>{setPokemonName(e.target.value)}}
+      />
+
+      <div className="cards">
+        {
+          pokemons
+          .filter(pokemon=>{
+            if(!pokemon) return true
+            if(pokemon.name.includes(pokemonName.toLowerCase().trim())){
+              return true
+            }
+          })          
+          .map(e=>
+            <CardItem  name={e.name} sprite={e.sprite} />
+          )
+        }
+      </div>
     </div>
   );
 }
-
-export default App;
